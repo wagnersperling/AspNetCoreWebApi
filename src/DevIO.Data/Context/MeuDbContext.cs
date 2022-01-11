@@ -48,3 +48,5 @@ namespace DevIO.Data.Context
         }
     }
 }
+
+// update-database -verbose
