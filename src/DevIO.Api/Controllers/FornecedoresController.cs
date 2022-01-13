@@ -36,7 +36,7 @@ namespace DevIO.Api.Controllers
             return fornecedor;
         }
 
-        [HttpGet("id:guid")]
+        [HttpGet("{id:guid}")]
         public async Task<ActionResult<FornecedorViewModel>> ObterPorId(Guid id)
         {
             var fornecedor = await ObterFornecedorProdutosEndereco(id);
@@ -76,7 +76,7 @@ namespace DevIO.Api.Controllers
             return Ok(fornecedor);
         }
 
-        [HttpDelete("id:guid")]
+        [HttpDelete("{id:guid}")]
         public async Task<ActionResult<FornecedorViewModel>> Excluir(Guid id)
         {
             var fornecedor = await ObterFornecedorEndereco(id);
