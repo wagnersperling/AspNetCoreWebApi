@@ -413,6 +413,8 @@ FodyWeavers.xsd
 .idea/
 *.sln.iml
 
+**/wwwroot/imagens/
+
 ### VisualStudio Patch ###
 # Additional files built by Visual Studio
 
