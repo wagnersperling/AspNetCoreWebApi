@@ -18,12 +18,25 @@ namespace DevIO.Api.Configuration
                 options.SuppressModelStateInvalidFilter = true;
             });
 
-            services.AddCors(options => {
+            services.AddCors(options =>
+            {
                 options.AddPolicy("Development",
-                    builder => builder.AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .AllowCredentials());
+                    builder =>
+                        builder
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials());
+
+
+                options.AddPolicy("Production",
+                    builder =>
+                        builder
+                            .WithMethods("GET")
+                            .WithOrigins("http://localhost")
+                            .SetIsOriginAllowedToAllowWildcardSubdomains()
+                            //.WithHeaders(HeaderNames.ContentType, "x-custom-header")
+                            .AllowAnyHeader());
             });
             return services;
         }
@@ -31,7 +44,7 @@ namespace DevIO.Api.Configuration
         public static IApplicationBuilder UseMvcConfiguration(this IApplicationBuilder app)
         {
             app.UseHttpsRedirection();
-            app.UseCors("Development");
+            //app.UseCors("Development");
             app.UseMvc();
             return app;
         }
