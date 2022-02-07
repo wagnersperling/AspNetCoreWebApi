@@ -1,4 +1,5 @@
-﻿using DevIO.Api.Extensions;
+﻿using DevIO.Api.Controllers;
+using DevIO.Api.Extensions;
 using DevIO.Api.ViewModels;
 using DevIO.Business.Intefaces;
 using Microsoft.AspNetCore.Cors;
@@ -13,9 +14,12 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DevIO.Api.Controllers
+namespace DevIO.Api.V1.Controllers
 {
-    [Route("api")]
+    //[ApiVersion("2.0")]
+    //[ApiVersion("1.0", Deprecated = true)]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/")]
     //[DisableCors]
     public class AuthController : MainController
     {
@@ -174,7 +178,7 @@ namespace DevIO.Api.Controllers
                 {
                     Id = user.Id,
                     Email = user.Email,
-                    Claims = claims.Select(c=> new ClaimViewModel { Type = c.Type, Value = c.Value})
+                    Claims = claims.Select(c => new ClaimViewModel { Type = c.Type, Value = c.Value })
                 }
             };
 
