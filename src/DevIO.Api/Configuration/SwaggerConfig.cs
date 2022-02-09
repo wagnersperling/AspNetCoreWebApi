@@ -40,6 +40,7 @@ namespace DevIO.Api.Configuration
 
         public static IApplicationBuilder UseSwaggerConfig(this IApplicationBuilder app, IApiVersionDescriptionProvider provider)
         {
+            //app.UseMiddleware<SwaggerAuthorizedMiddleware>();
             app.UseSwagger();
             app.UseSwaggerUI(
                 options =>
@@ -48,7 +49,7 @@ namespace DevIO.Api.Configuration
                     {
                         options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
                     }
-                });
+                });           
             return app;
         }
     }
@@ -117,6 +118,28 @@ namespace DevIO.Api.Configuration
 
                 parameter.Required |= description.IsRequired;
             }
+        }
+    }
+
+    public class SwaggerAuthorizedMiddleware
+    {
+        private readonly RequestDelegate _next;
+
+        public SwaggerAuthorizedMiddleware(RequestDelegate next)
+        {
+            _next = next;
+        }
+
+        public async Task Invoke(HttpContext context)
+        {
+            if (context.Request.Path.StartsWithSegments("/swagger")
+                && !context.User.Identity.IsAuthenticated)
+            {
+                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                return;
+            }
+
+            await _next.Invoke(context);
         }
     }
 }
