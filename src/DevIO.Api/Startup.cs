@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DevIO.Api.Configuration;
+using DevIO.Api.Extensions;
 using DevIO.Data.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -36,6 +37,7 @@ namespace DevIO.Api
             //    c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
             //    c.SwaggerDoc("v2", new Info { Title = "My API", Version = "v2" });
             //});
+            services.AddLoggingConfiguration(Configuration);
             services.ResolveDependencies();
         }
 
@@ -53,6 +55,9 @@ namespace DevIO.Api
                 app.UseHsts();
             }
             app.UseAuthentication();
+
+            app.UseMiddleware<ExceptionMiddleware>();
+
             app.UseMvcConfiguration();
             app.UseSwaggerConfig(provider);
 
@@ -62,7 +67,7 @@ namespace DevIO.Api
             //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             //    c.SwaggerEndpoint("/swagger/v2/swagger.json", "My API V2");
             //});
-
+            app.UseLoggingConfiguration();
         }
     }
 }
