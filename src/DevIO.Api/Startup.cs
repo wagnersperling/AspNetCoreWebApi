@@ -38,6 +38,13 @@ namespace DevIO.Api
             //    c.SwaggerDoc("v2", new Info { Title = "My API", Version = "v2" });
             //});
             services.AddLoggingConfiguration(Configuration);
+
+            //services.AddHealthChecks()
+            //    .AddCheck("Produtos", new SqlServerHealthCheck(Configuration.GetConnectionString("DefaultConnection")))
+            //    .AddSqlServer(Configuration.GetConnectionString("DefaultConnection"), name: "BancoSQL");
+
+            //services.AddHealthChecksUI();
+
             services.ResolveDependencies();
         }
 
@@ -68,8 +75,22 @@ namespace DevIO.Api
             //    c.SwaggerEndpoint("/swagger/v2/swagger.json", "My API V2");
             //});
             app.UseLoggingConfiguration();
+
+            //app.UseHealthChecks("/api/hc", new HealthCheckOptions() { 
+            //    Predicate = _ => true,
+            //    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+            //});
+            //app.UseHealthChecksUI(options =>
+            //{
+            //    options.UIPath = "/api/hc-ui";
+            //});
         }
     }
 }
 
 //Install-package Swashbuckle.AspNetCore -v 4.0.1
+
+//Install-Package AspNetCore.HealthChecks.SqlServer -v 2.2.0
+//Install-Package AspNetCore.HealthChecks.ui -v 2.2.28
+
+//Install - Package Elmah.Io.AspNetCore.HealthChecks - IncludePrerelease - v 3.7.78
